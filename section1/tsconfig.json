@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "ESNEXT",
+    "module": "ESNext",
+    "outDir": "dist", // 컴파일된 JS 코드를 어떤 파일에 저장할지 지정
+    "strict": false, // true: 타입을 엄격하게 검사, false: 타입을 유연하게 검사
+    "moduleDetection": "force" // 어떤 모듈로 감지할 것인지 지정
+  },
+  "ts-node": { "esm": true },
+  "include": ["src"]
+}
