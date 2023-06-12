@@ -1,65 +1,80 @@
 /**
- * unknown 타입 -> 모든 타입의 슈퍼 타입
+ * 기본 타입간의 호환성
  */
 
-function unknownExam() {
-  let a: unknown = 1;
-  let b: unknown = "hello";
-  let c: unknown = true;
-  let d: unknown = null;
-  let e: unknown = undefined; // 업캐스팅
+let num1: number = 10; // number: 슈퍼 타입
+let num2: 10 = 10;
 
-  let unknownVar: unknown;
-
-  //   let num: number = unknownVar;
-  //   let str: string = unknownVar;
-  //   let bool: boolean = unknownVar; //다운캐스팅
-}
+num1 = num2;
 
 /**
- * never 타입 -> 모든 타입의 서브 타입 (공집합 : 아무것도 없는 집합)
+ * 객체 타입간의 호환성
+ * -> 어떤 객체 타입을 다른 객체 타입으로 취급해도 괜찮을까?
  */
 
-function neverExam() {
-  function neverFunc(): never {
-    while (true) {}
-  }
+type Animal = {
+  name: string;
+  color: string;
+};
 
-  let num: number = neverFunc();
-  let str: string = neverFunc();
-  let bool: boolean = neverFunc(); //업캐스팅
+type Dog = {
+  name: string;
+  color: string;
+  breed: string;
+};
 
-  //   let never1: never = 10;
-  //   let never2: never = "string";
-  //   let never3: never = true; // 다운캐스팅
-}
+let animal: Animal = {
+  name: "기린",
+  color: "yellow",
+};
+
+let dog: Dog = {
+  name: "새해",
+  color: "brown",
+  breed: "시츄",
+};
+
+animal = dog; // 업 캐스팅
+// dog = animal; // 다운 캐스팅
+
+type Book = {
+  name: string;
+  price: number;
+};
+
+type ProgrammingBook = {
+  name: string;
+  price: number;
+  skill: string;
+};
+
+let book: Book;
+let programmingBook: ProgrammingBook = {
+  name: "한 입 크기로 잘라먹는 리액트",
+  price: 33000,
+  skill: "reactJS",
+};
+
+book = programmingBook; // 업 캐스팅
+// programmingBook = book; // 다운 캐스팅
+console.log(book); // { name: '한 입 크기로 잘라먹는 리액트', price: 33000, skill: 'reactJS' }
 
 /**
- * void 타입 -> 중간에 있는 타입. undefined의 슈퍼 타입
+ * 초과 프로퍼티 검사
  */
 
-function voidExam() {
-  function voidFunc(): void {
-    console.log("hi");
-    return undefined;
-  }
+let book2: Book = {
+  name: "한 입 크기로 잘라먹는 리액트",
+  price: 33000,
+  //   skill: "reactJS",
+};
 
-  let voidVar: void = undefined; //업캐스팅
-}
+let book3: Book = programmingBook; // 초과 프로퍼티 검사에 걸리지 않는다
 
-/**
- * any 타입 -> never 타입 제외하고 모든 캐스팅이 가능
- */
-
-function anyExam() {
-  let unknownVar: unknown;
-  let anyVar: any;
-  let undefinedVar: undefined;
-  let neverVar: never;
-
-  anyVar = unknownVar;
-
-  undefinedVar = anyVar;
-
-  // neverVar = anyVar; // never타입으로 다운캐스팅할 순 없다 (never는 진짜 공집합이기 때문에!)
-}
+function func(book: Book) {}
+func({
+  name: "한 입 크기로 잘라먹는 리액트",
+  price: 33000,
+  //   skill: "reactJS",
+});
+func(programmingBook);
