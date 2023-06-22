@@ -4,9 +4,9 @@
 
 class Employee {
   // 필드
-  private name: string; //
-  protected age: number; //
-  public position: string; //
+  private name: string; // 모든 범위에서 접근 가능
+  protected age: number; // 클래스 내부에서만 접근 가능
+  public position: string; // 클래스 내부 또는 파생 클래스 내부에서만 접근 가능
 
   // 생성자
   constructor(name: string, age: number, position: string) {
